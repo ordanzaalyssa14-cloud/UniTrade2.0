@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UniTrade | SLSU Student Marketplace</title>
+    <meta name="description" content="Your Campus. Your Marketplace. Your UniTrade. Buy and sell school essentials, books, gadgets, and more within the SLSU student community.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="auth-gate-active">
+
+    <div class="app-layout">
+
+        <div id="sidebarBackdrop" class="sidebar-backdrop hidden" onclick="toggleMobileSidebar(false)"></div>
+
+        <!-- SIDEBAR -->
+        <aside id="appSidebar" class="sidebar" aria-label="Primary Navigation">
+
+            <div class="sidebar-brand-row">
+                <a href="#" class="logo" onclick="showPage('home'); return false;">
+                    <span class="logo-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </span>
+                    <span class="logo-wordmark">
+                        <span class="logo-title">Uni<span>Trade</span></span>
+                        <span class="logo-sub">Student Marketplace</span>
+                    </span>
+                </a>
+                <button
+                    type="button"
+                    class="sidebar-close-btn"
+                    aria-label="Close navigation menu"
+                    onclick="toggleMobileSidebar(false)">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <p class="sidebar-label">Marketplace</p>
+
+                <button type="button" onclick="showPage('home')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 10.5L12 3l9 7.5"></path>
+                            <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-label">Home</span>
+                </button>
+
+                <button type="button" onclick="showPage('explore')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <span class="nav-label">Explore Products</span>
+                </button>
+
+                <button type="button" onclick="showPage('sell')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                    </span>
+                    <span class="nav-label">Sell Item</span>
+                </button>
+
+                <button type="button" onclick="showPage('myListings')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                            <line x1="7" y1="9" x2="17" y2="9"></line>
+                            <line x1="7" y1="13" x2="17" y2="13"></line>
+                            <line x1="7" y1="17" x2="13" y2="17"></line>
+                        </svg>
+                    </span>
+                    <span class="nav-label">My Listings</span>
+                </button>
+
+                <button type="button" onclick="showPage('cart')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="20" r="1"></circle>
+                            <circle cx="18" cy="20" r="1"></circle>
+                            <path d="M2.5 3h2.8l2.2 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L21.5 7H6.2"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-label">Cart</span>
+                    <span id="navCartBadge" class="nav-count-badge hidden">0</span>
+                </button>
+
+                <p class="sidebar-label">Transactions</p>
+
+                <button type="button" onclick="showPage('myPurchases')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-label">My Purchases</span>
+                </button>
+
+                <button type="button" onclick="showPage('incomingOrders')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="17 1 21 5 17 9"></polyline>
+                            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                            <polyline points="7 23 3 19 7 15"></polyline>
+                            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-label">Incoming Orders</span>
+                </button>
+
+                <p class="sidebar-label">Account</p>
+
+                <button type="button" onclick="showPage('myProfile')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </span>
+                    <span class="nav-label">My Profile</span>
+                </button>
+
+                <button type="button" id="adminNav" class="hidden" onclick="showPage('admin')">
+                    <span class="nav-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-label">Admin Dashboard</span>
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <p>SLSU Campus Marketplace</p>
+
+                <button
+                    type="button"
+                    id="accountBtn"
+                    class="btn-outline full-width"
+                    onclick="handleAccount()">
+                    Login
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN WORKSPACE -->
+        <div class="main-workspace">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <div class="topbar-left">
+                    <button
+                        type="button"
+                        id="mobileMenuBtn"
+                        class="mobile-menu-btn"
+                        aria-label="Open navigation menu"
+                        aria-expanded="false"
+                        onclick="toggleMobileSidebar(true)">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+
+                    <div class="topbar-welcome">
+                        <span class="topbar-brand-mobile">Uni<span>Trade</span></span>
+                        <h3 id="topbarPageHeading">SLSU Student Marketplace</h3>
+                    </div>
+
+                    <div class="topbar-search" role="search">
+                        <svg class="topbar-search-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search books, supplies, gadgets..."
+                            aria-label="Search marketplace products">
+                    </div>
+                </div>
+
+                <nav class="topbar-center nav-links" aria-label="Quick Links">
+                    <button type="button" onclick="showPage('about')">About</button>
+                    <button type="button" onclick="showPage('userGuide')">User Guide</button>
+                    <button type="button" onclick="showPage('settings')">Settings</button>
+                </nav>
+
+                <div class="topbar-links">
+
+                    <!-- NOTIFICATION CENTER -->
+                    <div id="notificationWrapper" class="notification-wrapper hidden">
+
+                        <button
+                            type="button"
+                            id="notificationBellBtn"
+                            class="notification-bell-btn"
+                            aria-label="Notifications"
+                            aria-expanded="false"
+                            aria-controls="notificationDropdown"
+                            title="Notifications">
+                            <svg class="notification-bell-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span id="notificationBadge" class="notification-badge hidden">0</span>
+                        </button>
+
+                        <div
+                            id="notificationDropdown"
+                            class="notification-dropdown hidden"
+                            role="region"
+                            aria-label="Notifications">
+
+                            <div class="notification-dropdown-header">
+                                <div>
+                                    <strong>Notification Center</strong>
+                                    <span id="notificationSummaryText" class="notification-header-sub">Order &amp; chat activity</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    id="markAllNotificationsReadBtn"
+                                    class="notification-mark-all hidden">
+                                    Mark all as read
+                                </button>
+                            </div>
+
+                            <div id="notificationList" class="notification-list">
+                                <p class="notification-empty">No notifications yet.</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- PROFILE DROPDOWN -->
+                    <div id="profileMenuWrapper" class="profile-menu-wrapper">
+
+                        <button
+                            type="button"
+                            id="profileMenuBtn"
+                            class="profile-menu-btn"
+                            aria-label="Account menu"
+                            aria-expanded="false"
+                            aria-controls="profileMenuDropdown">
+                            <span id="profileMenuAvatar" class="profile-menu-avatar">U</span>
+                            <span class="profile-menu-meta">
+                                <span id="profileMenuName" class="profile-menu-name">Account</span>
+                                <span id="profileMenuRole" class="profile-menu-role">Visitor</span>
+                            </span>
+                            <svg class="profile-chevron" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+
+                        <div id="profileMenuDropdown" class="profile-menu-dropdown hidden" role="region" aria-label="Account summary">
+                            <div class="profile-menu-header">
+                                <strong id="profileDropdownName">Guest Visitor</strong>
+                                <span id="profileDropdownRole">SLSU Community</span>
+                            </div>
+                            <div id="profileMenuAuthItems" class="profile-menu-info-list hidden">
+                                <div class="profile-menu-info-row">
+                                    <span>Email</span>
+                                    <strong id="profileDropdownEmail">—</strong>
+                                </div>
+                                <div class="profile-menu-info-row">
+                                    <span>Student ID</span>
+                                    <strong id="profileDropdownStudentId">—</strong>
+                                </div>
+                                <div class="profile-menu-info-row">
+                                    <span>Course</span>
+                                    <strong id="profileDropdownCourse">—</strong>
+                                </div>
+                            </div>
+                            <div id="profileMenuGuestItems" class="profile-menu-guest-note">
+                                Browse as a guest, or use Login in the sidebar to buy and sell.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CART SUCCESS MODAL -->
+            <div id="cartAddedModal" class="custom-modal hidden">
+
+                <div class="custom-modal-content">
+
+                    <div class="success-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+
+                    <h2>Added to Cart</h2>
+
+                    <p>This item has been saved to your UniTrade shopping cart.</p>
+
+                    <div class="popup-buttons">
+
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            onclick="closeCartPopup()">
+                            Continue Shopping
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-primary"
+                            onclick="goToCart()">
+                            View Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGOUT CONFIRMATION MODAL -->
+            <div id="logoutModal" class="modal-overlay hidden">
+
+                <div class="modal-box">
+
+                    <div class="modal-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </div>
+
+                    <h2>Confirm Logout</h2>
+
+                    <p>Are you sure you want to log out of your UniTrade account?</p>
+
+                    <div class="modal-buttons">
+
+                        <button type="button" id="cancelLogout" class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button type="button" id="confirmLogout" class="btn-primary">
+                            Yes, Logout
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DELETE LISTING MODAL -->
+            <div id="deleteConfirmModal" class="modal-overlay hidden">
+
+                <div class="modal-box">
+
+                    <div class="modal-icon danger" aria-hidden="true">!</div>
+
+                    <h2>Delete Listing?</h2>
+
+                    <p>
+                        Are you sure you want to delete this product?
+                        This action cannot be undone.
+                    </p>
+
+                    <div class="modal-buttons">
+
+                        <button type="button" id="cancelDelete" class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button type="button" id="confirmDelete" class="btn-danger">
+                            Yes, Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN HIDE / UNHIDE MODAL -->
+            <div id="adminStatusModal" class="modal-overlay hidden">
+
+                <div class="modal-box">
+
+                    <div class="modal-icon" aria-hidden="true">!</div>
+
+                    <h2 id="adminStatusTitle">Hide Listing?</h2>
+
+                    <p id="adminStatusText">
+                        Are you sure you want to hide this listing?
+                    </p>
+
+                    <div class="modal-buttons">
+
+                        <button type="button" id="cancelAdminStatus" class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button type="button" id="confirmAdminStatus" class="btn-primary">
+                            Yes, Hide
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN DELETE MODAL -->
+            <div id="adminDeleteModal" class="modal-overlay hidden">
+
+                <div class="modal-box">
+
+                    <div class="modal-icon danger" aria-hidden="true">!</div>
+
+                    <h2>Delete Listing?</h2>
+
+                    <p>
+                        Are you sure you want to permanently delete
+                        this listing? This action cannot be undone.
+                    </p>
+
+                    <div class="modal-buttons">
+
+                        <button type="button" id="cancelAdminDelete" class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button type="button" id="confirmAdminDelete" class="btn-danger">
+                            Yes, Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUY NOW / CHECKOUT MODAL -->
+            <div id="buyNowModal" class="modal-overlay hidden">
+
+                <div class="modal-box order-confirm-modal">
+
+                    <div class="order-modal-header">
+
+                        <div>
+
+                            <p class="eyebrow purple-text">
+                                UniTrade Checkout
+                            </p>
+
+                            <h2>Confirm Your Order</h2>
+
+                            <p class="muted">
+                                Review your selected items and quantities before submitting.
+                            </p>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="modal-close"
+                            aria-label="Close checkout modal"
+                            onclick="document.getElementById('buyNowModal').classList.add('hidden')">
+                            &times;
+                        </button>
+
+                    </div>
+
+
+                    <div class="order-summary-box">
+
+                        <div class="order-summary-heading">
+                            <span>Order Summary</span>
+                        </div>
+
+                        <div id="buyProductTitle" class="order-items-stack">
+                            Product Name
+                        </div>
+
+                        <div class="order-total-row">
+                            <span>Total Amount</span>
+                            <h3 id="buyProductPrice" class="tabular-nums">₱0.00</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group order-meetup-group">
+
+                        <label for="meetupLocation">
+                            <span>Meet-up Coordination</span>
+                        </label>
+
+                        <div class="meetup-input-wrapper">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <p>
+                                Meet-up location, date, and time are arranged by the buyer and seller through Order Chat after the order is submitted.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <p id="buyOrderMessage" class="message"></p>
+
+                    <div class="order-modal-actions">
+
+                        <button
+                            type="button"
+                            id="cancelBuy"
+                            class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button
+                            type="button"
+                            id="confirmBuy"
+                            class="btn-primary">
+                            Submit Order
+                        </button>
+
+                    </div>
+
+                    <p class="order-modal-note">
+                        Please review your order details carefully before submitting.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- EDIT LISTING MODAL -->
+            <div id="editProductModal" class="modal-overlay hidden">
+
+                <div class="modal-box edit-modal-box">
+
+                    <h2>Edit Listing</h2>
+
+                    <p class="muted">Update your product information and inventory details below.</p>
+
+                    <div class="edit-modal-field">
+
+                        <label>Product Picture</label>
+
+                        <img
+                            id="editProductImagePreview"
+                            src=""
+                            alt="Product Preview"
+                            class="edit-product-preview-img">
+
+                        <input
+                            type="file"
+                            id="editProductImage"
+                            accept="image/*">
+
+                    </div>
+
+                    <div class="edit-modal-field">
+
+                        <label for="editProductName">Product Name</label>
+
+                        <input
+                            type="text"
+                            id="editProductName"
+                            placeholder="Enter product name">
+
+                    </div>
+
+                    <div class="edit-modal-row">
+
+                        <div class="edit-modal-field">
+
+                            <label for="editProductPrice">Product Price (₱)</label>
+
+                            <input
+                                type="number"
+                                id="editProductPrice"
+                                min="1"
+                                step="0.01"
+                                placeholder="0.00">
+
+                        </div>
+
+                        <div class="edit-modal-field">
+
+                            <label for="editProductStock">Stock Quantity</label>
+
+                            <input
+                                type="number"
+                                id="editProductStock"
+                                min="0"
+                                step="1"
+                                placeholder="Enter stock quantity">
+
+                        </div>
+
+                    </div>
+
+                    <div class="edit-modal-row">
+
+                        <div class="edit-modal-field">
+
+                            <label for="editProductCategory">Category</label>
+
+                            <input
+                                type="text"
+                                id="editProductCategory"
+                                list="unitradeCategoryList"
+                                placeholder="Select or enter category">
+
+                            <datalist id="unitradeCategoryList">
+                                <option value="Books"></option>
+                                <option value="School Supplies"></option>
+                                <option value="Electronics"></option>
+                                <option value="Clothing"></option>
+                            </datalist>
+
+                        </div>
+
+                        <div class="edit-modal-field">
+
+                            <label for="editProductCondition">Condition</label>
+
+                            <select id="editProductCondition">
+                                <option value="Brand New">Brand New</option>
+                                <option value="Like New">Like New</option>
+                                <option value="Good Condition">Good Condition</option>
+                                <option value="Fair Condition">Fair Condition</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="edit-modal-field">
+
+                        <label for="editProductDescription">Product Description</label>
+
+                        <textarea
+                            id="editProductDescription"
+                            rows="4"
+                            placeholder="Enter product description"></textarea>
+
+                    </div>
+
+                    <p id="editProductMessage" class="message"></p>
+
+                    <div class="modal-buttons">
+
+                        <button type="button" id="cancelEdit" class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button type="button" id="saveEdit" class="btn-primary">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EDIT PROFILE MODAL -->
+            <div id="editProfileModal" class="modal-overlay hidden">
+
+                <div class="modal-box edit-modal-box">
+
+                    <h2>Edit My Profile</h2>
+
+                    <p class="muted">Update your SLSU student profile information.</p>
+
+                    <div class="edit-modal-field">
+
+                        <label for="editProfileAvatar">Profile Picture</label>
+
+                        <div id="editProfileAvatarPreview" class="edit-avatar-preview">
+                            U
+                        </div>
+
+                        <input
+                            type="file"
+                            id="editProfileAvatar"
+                            accept="image/*">
+
+                    </div>
+
+                    <div class="edit-modal-field">
+
+                        <label for="editProfileFullName">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="editProfileFullName"
+                            maxlength="120"
+                            placeholder="Enter your full name">
+
+                    </div>
+
+                    <div class="edit-modal-field">
+
+                        <label for="editProfileCourse">Course / Program</label>
+
+                        <select id="editProfileCourse">
+                            <option value="">Select Course / Program</option>
+                            <option value="Bachelor of Secondary Education major in Mathematics">
+                                Bachelor of Secondary Education major in Mathematics
+                            </option>
+                            <option value="Bachelor of Secondary Education major in Social Studies">
+                                Bachelor of Secondary Education major in Social Studies
+                            </option>
+                            <option value="Bachelor of Science in Business Administration major in Human Resource Management">
+                                Bachelor of Science in Business Administration major in Human Resource Management
+                            </option>
+                            <option value="Bachelor of Industrial Technology major in Computer Technology">
+                                Bachelor of Industrial Technology major in Computer Technology
+                            </option>
+                            <option value="Bachelor of Science in Nursing">
+                                Bachelor of Science in Nursing
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="edit-modal-field">
+
+                        <label for="editProfileYearLevel">Year Level</label>
+
+                        <select id="editProfileYearLevel">
+                            <option value="">Select Year Level</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+
+                    </div>
+
+                    <p id="editProfileMessage" class="message"></p>
+
+                    <div class="modal-buttons">
+
+                        <button type="button" id="cancelEditProfile" class="btn-outline">
+                            Cancel
+                        </button>
+
+                        <button type="button" id="saveEditProfile" class="btn-primary">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN CONTENT -->
+            <main>
+
+
+                <!-- SESSION LOADING STATE -->
+                <section id="authLoading" class="page">
+
+                    <div class="auth-loading-card">
+                        <div class="auth-loading-spinner" aria-hidden="true"></div>
+                        <p class="eyebrow">UniTrade Marketplace</p>
+                        <h2>Checking Session...</h2>
+                        <p class="muted">
+                            Please wait while we verify your authentication status.
+                        </p>
+                    </div>
+
+                </section>
+
+
+                <!-- ABOUT PAGE -->
+                <section id="about" class="page hidden">
+
+                    <div class="content-card">
+
+                        <p class="eyebrow purple-text">Get to know us</p>
+
+                        <h2>About UniTrade</h2>
+
+                        <p>
+                            UniTrade is a student marketplace designed exclusively
+                            for Southern Luzon State University students.
+                        </p>
+
+                        <p>
+                            Our goal is to provide a convenient platform where
+                            students can buy and sell school-related products
+                            and other useful items within the university community.
+                        </p>
+
+                        <h3>Our Mission</h3>
+
+                        <p>
+                            To make buying and selling easier, more accessible,
+                            and more convenient for SLSU students.
+                        </p>
+
+                        <h3>Our Vision</h3>
+
+                        <p>
+                            To build a trusted student marketplace that connects
+                            the SLSU community through convenient online transactions.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- USER GUIDE PAGE -->
+                <section id="userGuide" class="page hidden">
+
+                    <div class="content-card">
+
+                        <p class="eyebrow purple-text">How to use UniTrade</p>
+
+                        <h2>User Guide</h2>
+
+                        <div class="guide-item">
+                            <h3>1. Create an Account</h3>
+                            <p>Register using your SLSU student details to access the UniTrade marketplace.</p>
+                        </div>
+
+                        <div class="guide-item">
+                            <h3>2. Explore Products</h3>
+                            <p>Browse categories on Home or open Explore Products to search, filter, and sort listings.</p>
+                        </div>
+
+                        <div class="guide-item">
+                            <h3>3. Add Products to Cart or Buy Now</h3>
+                            <p>Review product details, stock quantity, condition, and seller profile before ordering.</p>
+                        </div>
+
+                        <div class="guide-item">
+                            <h3>4. Checkout &amp; Order Chat</h3>
+                            <p>Submit your order and coordinate your campus meet-up location directly with the seller.</p>
+                        </div>
+
+                        <div class="guide-item">
+                            <h3>5. Sell &amp; Manage Listings</h3>
+                            <p>Use Sell Item to publish products with stock and condition, and manage them in My Listings.</p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SETTINGS PAGE -->
+                <section id="settings" class="page hidden">
+
+                    <div class="content-card">
+
+                        <p class="eyebrow purple-text">Manage your account</p>
+
+                        <h2>Settings</h2>
+
+                        <div class="settings-item">
+
+                            <div>
+                                <h3>My Profile</h3>
+                                <p>View and update your personal and student information.</p>
+                            </div>
+
+                            <button type="button" class="btn-primary" onclick="showPage('myProfile')">
+                                View Profile
+                            </button>
+
+                        </div>
+
+                        <div class="settings-item">
+
+                            <div>
+                                <h3>Account Security</h3>
+                                <p>Keep your login credentials private and secure.</p>
+                            </div>
+
+                        </div>
+
+                        <div class="settings-item">
+
+                            <div>
+                                <h3>Help and Information</h3>
+                                <p>Learn how to buy, sell, and coordinate meet-ups on UniTrade.</p>
+                            </div>
+
+                            <button type="button" class="btn-outline" onclick="showPage('userGuide')">
+                                User Guide
+                            </button>
+
+                        </div>
+
+                        <div class="settings-item">
+
+                            <div>
+                                <h3>About UniTrade</h3>
+                                <p>Learn more about our SLSU student marketplace.</p>
+                            </div>
+
+                            <button type="button" class="btn-outline" onclick="showPage('about')">
+                                Learn More
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- HOME PAGE -->
+                <section id="home" class="page hidden">
+
+                    <!-- A. HERO SECTION -->
+                    <div class="hero">
+
+                        <div class="hero-copy">
+
+                            <p class="eyebrow">
+                                SLSU Student Marketplace
+                            </p>
+
+                            <h1>
+                                Your Campus.<br>
+                                Your Marketplace.<br>
+                                <span class="hero-brand-line">Your UniTrade.</span>
+                            </h1>
+
+                            <p class="hero-description">
+                                Buy, sell, and discover affordable school essentials, books, gadgets, and more within the SLSU community.
+                            </p>
+
+                            <div class="hero-actions">
+                                <button
+                                    type="button"
+                                    class="btn-hero-primary"
+                                    onclick="showPage('explore')">
+                                    Explore Products →
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn-hero-secondary"
+                                    onclick="showPage('sell')">
+                                    Start Selling
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="hero-visual">
+                            <img
+                                src="/src/assets/images/hero_campus_shopping_1795180433236.jpg"
+                                alt="UniTrade campus shopping essentials illustration"
+                                referrerpolicy="no-referrer"
+                                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                            <div class="hero-illustration-fallback hidden" aria-hidden="true">
+                                <svg viewBox="0 0 120 120" width="96" height="96" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <rect x="20" y="34" width="80" height="64" rx="14"></rect>
+                                    <path d="M40 34V26a20 20 0 0 1 40 0v8"></path>
+                                    <path d="M45 62l10 10 22-22"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hero-dots" aria-hidden="true">
+                            <span class="active"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- B. PRODUCT CATEGORIES -->
+                    <div class="home-section">
+
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow purple-text">Browse by Category</p>
+                                <h2>Product Categories</h2>
+                            </div>
+                            <button type="button" class="section-link-btn" onclick="openExploreCategory('all')">
+                                View all products →
+                            </button>
+                        </div>
+
+                        <div class="category-grid">
+
+                            <button type="button" class="category-card" onclick="openExploreCategory('Books')">
+                                <span class="category-card-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                </span>
+                                <span class="category-card-name">Books</span>
+                                <span class="category-card-sub">Textbooks &amp; reviewers</span>
+                            </button>
+
+                            <button type="button" class="category-card" onclick="openExploreCategory('School Supplies')">
+                                <span class="category-card-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                                        <path d="M2 2l7.586 7.586"></path>
+                                    </svg>
+                                </span>
+                                <span class="category-card-name">School Supplies</span>
+                                <span class="category-card-sub">Notebooks &amp; stationery</span>
+                            </button>
+
+                            <button type="button" class="category-card" onclick="openExploreCategory('Electronics')">
+                                <span class="category-card-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="4" width="20" height="14" rx="2"></rect>
+                                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                                        <line x1="12" y1="18" x2="12" y2="21"></line>
+                                    </svg>
+                                </span>
+                                <span class="category-card-name">Electronics</span>
+                                <span class="category-card-sub">Gadgets &amp; calculators</span>
+                            </button>
+
+                            <button type="button" class="category-card" onclick="openExploreCategory('Clothing')">
+                                <span class="category-card-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path>
+                                    </svg>
+                                </span>
+                                <span class="category-card-name">Clothing</span>
+                                <span class="category-card-sub">Uniforms &amp; campus wear</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- C. FEATURED PRODUCTS + STUDENT COMMUNITY BANNER -->
+                    <div class="home-section home-featured-split">
+
+                        <div class="home-featured-col">
+                            <div class="section-heading">
+                                <div>
+                                    <p class="eyebrow purple-text">Curated Picks</p>
+                                    <h2>Featured Products</h2>
+                                </div>
+                                <button type="button" class="section-link-btn" onclick="showPage('explore')">
+                                    Explore catalog →
+                                </button>
+                            </div>
+
+                            <div id="featuredProductsGrid" class="product-grid featured-grid"></div>
+                        </div>
+
+                        <!-- STUDENT COMMUNITY PROMOTIONAL BANNER (VISUAL SECTION) -->
+                        <aside class="community-banner" aria-label="SLSU Student Community">
+
+                            <div class="community-banner-copy">
+                                <p class="eyebrow purple-text">SLSU Student Community</p>
+                                <h2>Made for Students.<br><span>Powered by Community.</span></h2>
+                                <p>
+                                    Connect with fellow students and discover affordable products within the SLSU community.
+                                </p>
+                                <button
+                                    type="button"
+                                    class="btn-primary community-cta-btn"
+                                    onclick="showPage(currentUser ? 'explore' : 'auth')">
+                                    Join UniTrade
+                                </button>
+                            </div>
+
+                            <div class="community-banner-media">
+                                <img
+                                    src="/src/assets/images/banner_student_community_1795180433784.jpg"
+                                    alt="SLSU students connecting and trading campus essentials"
+                                    referrerpolicy="no-referrer"
+                                    onerror="this.style.display='none';">
+                            </div>
+
+                        </aside>
+
+                    </div>
+
+
+                    <!-- D. RECENTLY ADDED -->
+                    <div class="home-section">
+
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow purple-text">Fresh on Campus</p>
+                                <h2>Recently Added</h2>
+                            </div>
+                            <button type="button" class="section-link-btn" onclick="openExploreSorted('newest')">
+                                View All →
+                            </button>
+                        </div>
+
+                        <div id="recentProductsGrid" class="product-grid"></div>
+
+                    </div>
+
+
+                    <!-- E. POPULAR PRODUCTS -->
+                    <div id="popularHomeSection" class="home-section hidden">
+
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow purple-text">Community Favorites</p>
+                                <h2>Popular Products</h2>
+                            </div>
+                            <button type="button" class="section-link-btn" onclick="openExploreSorted('popular')">
+                                View popular →
+                            </button>
+                        </div>
+
+                        <div id="popularProductsGrid" class="product-grid"></div>
+
+                    </div>
+
+                    <p id="homeMessage" class="message"></p>
+
+                </section>
+
+
+                <!-- EXPLORE PRODUCTS PAGE -->
+                <section id="explore" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">Browse Marketplace</p>
+                            <h2>Explore Products</h2>
+                            <p class="muted">Search, filter by category, condition, availability, or sort by price.</p>
+                        </div>
+                        <button type="button" class="btn-primary" onclick="showPage('sell')">
+                            + Sell an Item
+                        </button>
+                    </div>
+
+                    <div class="explore-toolbar">
+
+                        <div class="explore-search-box">
+                            <svg class="explore-search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="11" cy="11" r="7"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input
+                                type="text"
+                                id="exploreSearchInput"
+                                placeholder="Search books, electronics, supplies, or descriptions...">
+                        </div>
+
+                        <div class="explore-filters-grid">
+
+                            <div class="explore-filter-field">
+                                <label for="exploreCategoryFilter">Category</label>
+                                <select id="exploreCategoryFilter">
+                                    <option value="all">All Categories</option>
+                                    <option value="Books">Books</option>
+                                    <option value="School Supplies">School Supplies</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Clothing">Clothing</option>
+                                </select>
+                            </div>
+
+                            <div class="explore-filter-field">
+                                <label for="exploreConditionFilter">Condition</label>
+                                <select id="exploreConditionFilter">
+                                    <option value="all">All Conditions</option>
+                                    <option value="Brand New">Brand New</option>
+                                    <option value="Like New">Like New</option>
+                                    <option value="Good Condition">Good Condition</option>
+                                    <option value="Fair Condition">Fair Condition</option>
+                                </select>
+                            </div>
+
+                            <div class="explore-filter-field">
+                                <label for="exploreAvailabilityFilter">Availability</label>
+                                <select id="exploreAvailabilityFilter">
+                                    <option value="all">All Listings</option>
+                                    <option value="available">Available Now</option>
+                                    <option value="low_stock">Low Stock (1–3 left)</option>
+                                    <option value="reserved">Reserved</option>
+                                    <option value="sold">Sold / Out of Stock</option>
+                                    <option value="wishlist">Saved Wishlist</option>
+                                </select>
+                            </div>
+
+                            <div class="explore-filter-field">
+                                <label for="exploreSortSelect">Sort By</label>
+                                <select id="exploreSortSelect">
+                                    <option value="newest">Newest Products</option>
+                                    <option value="price_asc">Price: Low to High</option>
+                                    <option value="price_desc">Price: High to Low</option>
+                                    <option value="popular">Most Popular</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="explore-toolbar-footer">
+                            <p id="exploreMessage" class="explore-count-text">Loading products...</p>
+                            <button type="button" id="clearExploreFiltersBtn" class="btn-outline btn-sm">
+                                Reset Filters
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div id="exploreProductGrid" class="product-grid"></div>
+
+                    <!-- Hidden legacy productGrid alias kept harmlessly synced if referenced -->
+                    <div id="productGrid" class="hidden" aria-hidden="true"></div>
+
+                </section>
+
+
+                <!-- PRODUCT DETAILS PAGE -->
+                <section id="productDetails" class="page hidden">
+
+                    <button
+                        type="button"
+                        class="btn-outline"
+                        onclick="showPage('explore')">
+                        ← Back to Explore Products
+                    </button>
+
+                    <div class="product-details-container">
+
+                        <div
+                            class="product-details-image"
+                            id="detailsImage">
+                            📦
+                        </div>
+
+                        <div class="product-details-info">
+
+                            <div class="details-kicker-row">
+                                <span id="detailsCategoryMeta" class="details-meta-text">Marketplace Item</span>
+                                <span aria-hidden="true">·</span>
+                                <span id="detailsConditionMeta" class="details-meta-text">Good Condition</span>
+                                <span aria-hidden="true">·</span>
+                                <span id="detailsStockMeta" class="details-meta-text">In Stock</span>
+                            </div>
+
+                            <h2 id="detailsTitle">
+                                Product Name
+                            </h2>
+
+                            <div class="details-price-row">
+                                <h2 class="product-price tabular-nums" id="detailsPrice">
+                                    ₱0.00
+                                </h2>
+                                <button
+                                    type="button"
+                                    id="detailsWishlistBtn"
+                                    class="wishlist-pill-btn"
+                                    aria-pressed="false"
+                                    title="Save to Wishlist">
+                                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    <span>Save</span>
+                                </button>
+                            </div>
+
+                            <p id="detailsDescription">
+                                Product description
+                            </p>
+
+                            <div id="detailsSeller" class="details-seller-box muted">
+                                Seller information
+                            </div>
+
+                            <div class="form-group details-qty-group">
+
+                                <label for="detailsQuantity">
+                                    Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="detailsQuantity"
+                                    min="1"
+                                    value="1">
+
+                            </div>
+
+                            <div class="product-detail-actions">
+
+                                <button
+                                    type="button"
+                                    class="btn-outline"
+                                    id="addToCartBtn">
+                                    Add to Cart
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn-primary"
+                                    id="detailsBuyNowBtn">
+                                    Buy Now
+                                </button>
+
+                            </div>
+
+                            <p id="detailsMessage" class="message"></p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- LOGIN / SIGNUP PAGE -->
+                <section id="auth" class="page hidden">
+
+                    <div class="auth-split-shell">
+
+                        <!-- LEFT SECTION: VISUAL PANEL -->
+                        <div class="auth-visual-panel">
+                            <div class="auth-visual-frame" data-active-slide="0">
+
+                                <div class="auth-slides" aria-hidden="true">
+                                    <div class="auth-slide-item auth-slide-item--logo active" data-slide-index="0">
+                                        <div class="auth-logo-stage">
+                                            <img
+                                                src="/assets/aistudio/OIP__3__c04a750d.webp"
+                                                alt="Southern Luzon State University Gumaca Campus Official Seal"
+                                                class="auth-slide-img auth-slide-img--logo"
+                                                loading="eager"
+                                                decoding="async"
+                                                referrerpolicy="no-referrer"
+                                                onerror="this.style.display='none';">
+                                        </div>
+                                    </div>
+
+                                    <div class="auth-slide-item auth-slide-item--photo" data-slide-index="1">
+                                        <img
+                                            src="/assets/aistudio/OIP__1__a648a0c2.webp"
+                                            alt="Southern Luzon State University Gumaca Campus Building"
+                                            class="auth-slide-img auth-slide-img--photo"
+                                            loading="eager"
+                                            decoding="async"
+                                            referrerpolicy="no-referrer"
+                                            onerror="this.style.display='none';">
+                                    </div>
+
+                                    <div class="auth-slide-item auth-slide-item--banner" data-slide-index="2">
+                                        <div class="auth-banner-stage">
+                                            <img
+                                                src="/assets/aistudio/OIP__2__ae169d8f.webp"
+                                                alt="Southern Luzon State University Gumaca Campus Banner"
+                                                class="auth-slide-img auth-slide-img--banner"
+                                                loading="eager"
+                                                decoding="async"
+                                                referrerpolicy="no-referrer"
+                                                onerror="this.style.display='none';">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="auth-visual-overlay" aria-hidden="true"></div>
+
+                                <div class="auth-visual-content">
+                                    <div class="auth-visual-top">
+                                        <div class="auth-brand-lockup">
+                                            <span class="auth-brand-mark" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                                </svg>
+                                            </span>
+                                            <span class="auth-brand-text">
+                                                <span class="auth-brand-name">Uni<span>Trade</span></span>
+                                                <span class="auth-brand-sub">SLSU Student Marketplace</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="auth-visual-bottom">
+                                        <h2>Your Campus.<br>Your Marketplace.</h2>
+                                        <p>Buy, Sell, and Connect with Your SLSU Community.</p>
+
+                                        <div class="auth-carousel-dots" role="tablist" aria-label="SLSU campus slideshow">
+                                            <button type="button" class="auth-carousel-dot active" data-slide="0" aria-label="Slide 1: SLSU Gumaca Campus Seal" aria-selected="true"></button>
+                                            <button type="button" class="auth-carousel-dot" data-slide="1" aria-label="Slide 2: SLSU Gumaca Campus Building" aria-selected="false"></button>
+                                            <button type="button" class="auth-carousel-dot" data-slide="2" aria-label="Slide 3: SLSU Gumaca Campus Banner" aria-selected="false"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- RIGHT SECTION: AUTHENTICATION FORM -->
+                        <div class="auth-form-panel">
+
+                            <div class="auth-form-header">
+                                <h2 id="authTitle">Welcome Back</h2>
+                                <p class="auth-subtitle" id="authDescription">
+                                    Log in to continue to your UniTrade marketplace.
+                                </p>
+                            </div>
+
+                            <form id="authForm">
+
+                                <div id="nameGroup" class="auth-field-row hidden">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input
+                                            id="firstName"
+                                            type="text"
+                                            autocomplete="given-name"
+                                            placeholder="First name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input
+                                            id="lastName"
+                                            type="text"
+                                            autocomplete="family-name"
+                                            placeholder="Last name">
+                                    </div>
+                                </div>
+
+                                <div id="studentMetaRow" class="auth-field-row hidden">
+                                    <div id="studentIdGroup" class="form-group">
+                                        <label for="studentId">Student ID</label>
+                                        <input
+                                            id="studentId"
+                                            type="text"
+                                            placeholder="Enter Student ID">
+                                    </div>
+
+                                    <div id="yearLevelGroup" class="form-group">
+                                        <label for="yearLevel">Year Level</label>
+                                        <select id="yearLevel">
+                                            <option value="">Select Year Level</option>
+                                            <option value="1st Year">1st Year</option>
+                                            <option value="2nd Year">2nd Year</option>
+                                            <option value="3rd Year">3rd Year</option>
+                                            <option value="4th Year">4th Year</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="courseGroup" class="form-group hidden">
+                                    <label for="course">Course / Program</label>
+                                    <select id="course">
+                                        <option value="">Select Course / Program</option>
+                                        <option value="Bachelor of Secondary Education major in Mathematics">
+                                            Bachelor of Secondary Education major in Mathematics
+                                        </option>
+                                        <option value="Bachelor of Secondary Education major in Social Studies">
+                                            Bachelor of Secondary Education major in Social Studies
+                                        </option>
+                                        <option value="Bachelor of Science in Business Administration major in Human Resource Management">
+                                            Bachelor of Science in Business Administration major in Human Resource Management
+                                        </option>
+                                        <option value="Bachelor of Industrial Technology major in Computer Technology">
+                                            Bachelor of Industrial Technology major in Computer Technology
+                                        </option>
+                                        <option value="Bachelor of Science in Nursing">
+                                            Bachelor of Science in Nursing
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        autocomplete="email"
+                                        inputmode="email"
+                                        placeholder="Enter your email address"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="password-input-wrap">
+                                        <input
+                                            id="password"
+                                            type="password"
+                                            autocomplete="current-password"
+                                            placeholder="Enter your password"
+                                            minlength="8"
+                                            required>
+                                        <button
+                                            type="button"
+                                            id="togglePasswordBtn"
+                                            class="password-toggle-btn"
+                                            aria-label="Show password"
+                                            aria-pressed="false">
+                                            <svg class="icon-eye-open" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="icon-eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="confirmPasswordGroup" class="form-group hidden">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="password-input-wrap">
+                                        <input
+                                            id="confirmPassword"
+                                            type="password"
+                                            autocomplete="new-password"
+                                            placeholder="Re-enter your password"
+                                            minlength="8">
+                                        <button
+                                            type="button"
+                                            id="toggleConfirmPasswordBtn"
+                                            class="password-toggle-btn"
+                                            aria-label="Show confirm password"
+                                            aria-pressed="false">
+                                            <svg class="icon-eye-open" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="icon-eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="loginOptionsRow" class="auth-options-row">
+                                    <label class="auth-checkbox-label" for="rememberMe">
+                                        <input type="checkbox" id="rememberMe">
+                                        <span>Remember me</span>
+                                    </label>
+                                    <a href="#" id="forgotPasswordLink" class="auth-inline-link">Forgot Password?</a>
+                                </div>
+
+                                <div id="termsGroup" class="auth-terms-group hidden">
+                                    <label class="auth-checkbox-label" for="acceptTerms">
+                                        <input type="checkbox" id="acceptTerms">
+                                        <span>
+                                            I agree to the
+                                            <button type="button" id="toggleTermsPreview" class="auth-terms-trigger">Terms &amp; Conditions</button>
+                                            for SLSU students.
+                                        </span>
+                                    </label>
+                                    <div id="termsPreviewBox" class="auth-terms-preview hidden">
+                                        UniTrade is exclusively for Southern Luzon State University students. Listings must follow campus guidelines, accurate pricing, and respectful meet-up coordination.
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    id="authSubmit"
+                                    class="auth-btn-primary full-width">
+                                    <span class="btn-spinner" aria-hidden="true"></span>
+                                    <span id="authSubmitText">Login</span>
+                                </button>
+
+                            </form>
+
+                            <p id="authMessage" class="message" role="status" aria-live="polite"></p>
+
+                            <div id="authFooterLinks" class="auth-footer-links">
+
+                                <div class="auth-divider"><span>Or</span></div>
+
+                                <p class="switch-auth">
+                                    <span id="switchText">Don't have an account?</span>
+                                    <a href="#" id="switchAuth">Create an account</a>
+                                </p>
+
+                                <p class="switch-auth auth-admin-row">
+                                    Are you the administrator?
+                                    <a href="#" id="adminLoginLink">Admin Login</a>
+                                </p>
+
+                            </div>
+
+                            <form id="forgotPasswordForm" class="hidden" novalidate>
+
+                                <div class="form-group">
+                                    <label for="forgotEmail">Registered Email Address</label>
+                                    <input
+                                        id="forgotEmail"
+                                        type="email"
+                                        autocomplete="email"
+                                        inputmode="email"
+                                        placeholder="Enter your registered email"
+                                        required>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    id="forgotSubmit"
+                                    class="auth-btn-primary full-width">
+                                    <span class="btn-spinner" aria-hidden="true"></span>
+                                    <span id="forgotSubmitText">Send Reset Link</span>
+                                </button>
+
+                                <p id="forgotPasswordMessage" class="message" role="status" aria-live="polite"></p>
+
+                                <p class="switch-auth">
+                                    Remembered your password?
+                                    <a href="#" id="backToLoginFromForgot">Back to Login</a>
+                                </p>
+
+                            </form>
+
+                            <form id="resetPasswordForm" class="hidden" novalidate>
+
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <div class="password-input-wrap">
+                                        <input
+                                            id="newPassword"
+                                            type="password"
+                                            autocomplete="new-password"
+                                            placeholder="At least 8 characters"
+                                            minlength="8"
+                                            required>
+                                        <button
+                                            type="button"
+                                            id="toggleNewPasswordBtn"
+                                            class="password-toggle-btn"
+                                            aria-label="Show new password"
+                                            aria-pressed="false">
+                                            <svg class="icon-eye-open" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="icon-eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmNewPassword">Confirm New Password</label>
+                                    <div class="password-input-wrap">
+                                        <input
+                                            id="confirmNewPassword"
+                                            type="password"
+                                            autocomplete="new-password"
+                                            placeholder="Re-enter your new password"
+                                            minlength="8"
+                                            required>
+                                        <button
+                                            type="button"
+                                            id="toggleConfirmNewPasswordBtn"
+                                            class="password-toggle-btn"
+                                            aria-label="Show confirm new password"
+                                            aria-pressed="false">
+                                            <svg class="icon-eye-open" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="icon-eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    id="resetSubmit"
+                                    class="auth-btn-primary full-width">
+                                    <span class="btn-spinner" aria-hidden="true"></span>
+                                    <span id="resetSubmitText">Update Password</span>
+                                </button>
+
+                                <p id="resetPasswordMessage" class="message" role="status" aria-live="polite"></p>
+
+                                <p class="switch-auth">
+                                    <a href="#" id="backToLoginFromReset">Back to Login</a>
+                                </p>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SELL PAGE -->
+                <section id="sell" class="page hidden">
+
+                    <div class="sell-page-container">
+
+                        <div class="page-header-row">
+                            <div>
+                                <p class="eyebrow purple-text">Sell Your Items</p>
+                                <h2>Post a Product</h2>
+                                <p class="muted">Create a clear listing with pricing, stock quantity, item condition, and photos.</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card sell-form-card">
+
+                            <form id="productForm">
+
+                                <!-- SECTION 1: PRODUCT INFORMATION -->
+                                <div class="sell-section">
+
+                                    <div class="sell-section-header">
+                                        <h3>Product Information</h3>
+                                        <p>Describe what you are offering to the SLSU community.</p>
+                                    </div>
+
+                                    <div class="sell-two-col">
+
+                                        <div class="form-group">
+                                            <label for="productName">Product Name</label>
+                                            <input
+                                                id="productName"
+                                                type="text"
+                                                placeholder="e.g., Engineering Calculus Textbook 8th Ed."
+                                                maxlength="90"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productCategory">Category</label>
+                                            <select id="productCategory" required>
+                                                <option value="">Select Category</option>
+                                                <option value="Books">Books</option>
+                                                <option value="School Supplies">School Supplies</option>
+                                                <option value="Electronics">Electronics</option>
+                                                <option value="Clothing">Clothing</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="productDescription">Description</label>
+                                        <textarea
+                                            id="productDescription"
+                                            placeholder="Include item condition details, edition, size, or preferred campus meetup spots..."
+                                            maxlength="800"
+                                            required></textarea>
+                                    </div>
+
+                                </div>
+
+                                <!-- SECTION 2: PRICING AND INVENTORY -->
+                                <div class="sell-section">
+
+                                    <div class="sell-section-header">
+                                        <h3>Pricing and Inventory</h3>
+                                        <p>Set your price, available stock quantity, and item condition.</p>
+                                    </div>
+
+                                    <div class="sell-three-col">
+
+                                        <div class="form-group">
+                                            <label for="productPrice">Price (₱)</label>
+                                            <input
+                                                id="productPrice"
+                                                type="number"
+                                                min="1"
+                                                step="0.01"
+                                                placeholder="0.00"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productStock">Stock Quantity</label>
+                                            <input
+                                                id="productStock"
+                                                type="number"
+                                                min="1"
+                                                step="1"
+                                                inputmode="numeric"
+                                                placeholder="Enter stock quantity (e.g. 1)"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productCondition">Condition</label>
+                                            <select id="productCondition" required>
+                                                <option value="">Select Condition</option>
+                                                <option value="Brand New">Brand New</option>
+                                                <option value="Like New">Like New</option>
+                                                <option value="Good Condition">Good Condition</option>
+                                                <option value="Fair Condition">Fair Condition</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- SECTION 3: PRODUCT IMAGE -->
+                                <div class="sell-section">
+
+                                    <div class="sell-section-header">
+                                        <h3>Product Image</h3>
+                                        <p>Upload a clear photo of your item (optional, maximum 5MB).</p>
+                                    </div>
+
+                                    <div class="sell-image-upload-grid">
+
+                                        <div class="form-group">
+                                            <label for="productImageFile">Choose Image File</label>
+                                            <input
+                                                id="productImageFile"
+                                                type="file"
+                                                accept="image/*">
+                                            <small class="muted">
+                                                PNG, JPG, or WEBP up to 5MB.
+                                            </small>
+                                        </div>
+
+                                        <div id="sellImagePreview" class="sell-image-preview" aria-live="polite">
+                                            <div class="sell-image-preview-empty">
+                                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                                </svg>
+                                                <span>Image preview will appear here</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="sell-form-footer">
+                                    <button type="submit" class="btn-primary sell-publish-btn">
+                                        Publish Product
+                                    </button>
+                                </div>
+
+                            </form>
+
+                            <p id="sellMessage" class="message"></p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- MY LISTINGS PAGE -->
+                <section id="myListings" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">Seller Dashboard</p>
+                            <h2>My Listings</h2>
+                            <p class="muted">Monitor your inventory, stock levels, and posted products.</p>
+                        </div>
+                        <div class="mylistings-header-actions">
+                            <div class="view-toggle" role="group" aria-label="Listing view mode">
+                                <button type="button" id="myListingsViewCardsBtn" class="active" onclick="setMyListingsView('cards')">Cards</button>
+                                <button type="button" id="myListingsViewTableBtn" onclick="setMyListingsView('table')">Table</button>
+                            </div>
+                            <button type="button" class="btn-primary" onclick="showPage('sell')">
+                                + New Listing
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid seller-dashboard-stats">
+                        <div class="stat-card">
+                            <h3 id="myListingsActiveCount" class="tabular-nums">0</h3>
+                            <p>My Active Listings</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="myListingsTotalCount" class="tabular-nums">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="myListingsTotalStock" class="tabular-nums">0</h3>
+                            <p>Available Stock</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="myListingsSoldCount" class="tabular-nums">0</h3>
+                            <p>Sold Products</p>
+                        </div>
+                    </div>
+
+                    <div id="myProductGrid" class="product-grid"></div>
+
+                    <div id="myListingsTableWrap" class="table-wrap hidden">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Condition</th>
+                                    <th>Stock</th>
+                                    <th>Availability</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myListingsTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <p id="myMessage" class="message"></p>
+
+                </section>
+
+
+                <!-- SHOPPING CART PAGE -->
+                <section id="cart" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">Your Shopping Cart</p>
+                            <h2>Shopping Cart</h2>
+                            <p class="muted">Review your selected products before checkout.</p>
+                        </div>
+                    </div>
+
+                    <div class="cart-layout">
+
+                        <div class="cart-items">
+
+                            <div id="cartGrid" class="product-grid"></div>
+
+                            <p id="cartMessage" class="message"></p>
+
+                        </div>
+
+                        <div class="cart-summary">
+
+                            <h3>Order Summary</h3>
+
+                            <div class="cart-total-row">
+
+                                <span>Total</span>
+
+                                <strong id="cartTotal" class="tabular-nums">
+                                    ₱0.00
+                                </strong>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                id="checkoutBtn"
+                                class="btn-primary full-width">
+                                Proceed to Checkout
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- MY PURCHASES PAGE -->
+                <section id="myPurchases" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">My Transactions</p>
+                            <h2>My Purchases</h2>
+                            <p class="muted">Track your submitted orders, meetup details, and seller conversations.</p>
+                        </div>
+                    </div>
+
+                    <div id="myPurchasesGrid" class="orders-grid"></div>
+
+                    <p id="purchasesMessage" class="message"></p>
+
+                </section>
+
+
+                <!-- INCOMING ORDERS PAGE -->
+                <section id="incomingOrders" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">Seller Orders</p>
+                            <h2>Incoming Orders</h2>
+                            <p class="muted">Manage purchase requests, confirm campus meetups, and chat with buyers.</p>
+                        </div>
+                    </div>
+
+                    <div id="incomingOrdersGrid" class="orders-grid"></div>
+
+                    <p id="incomingOrdersMessage" class="message"></p>
+
+                </section>
+
+
+                <!-- MY PROFILE PAGE -->
+                <section id="myProfile" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">My Account</p>
+                            <h2>My Profile</h2>
+                            <p class="muted">View and update your SLSU student profile information.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+
+                        <div id="myProfileAvatar" class="profile-avatar">
+                            U
+                        </div>
+
+                        <h3 id="profileFullName">
+                            Loading...
+                        </h3>
+
+                        <p id="profileRole" class="muted">
+                            Student
+                        </p>
+
+                        <div id="myProfileVerifiedBadge" class="verified-badge hidden">
+                            ✓ Verified SLSU Student
+                        </div>
+
+                        <div class="profile-details">
+
+                            <div class="profile-detail">
+                                <label>Student ID</label>
+                                <p id="profileStudentId">-</p>
+                            </div>
+
+                            <div class="profile-detail">
+                                <label>Course</label>
+                                <p id="profileCourse">-</p>
+                            </div>
+
+                            <div class="profile-detail">
+                                <label>Year Level</label>
+                                <p id="profileYearLevel">-</p>
+                            </div>
+
+                            <div class="profile-detail">
+                                <label>Member Since</label>
+                                <p id="profileJoinDate">-</p>
+                            </div>
+
+                        </div>
+
+                        <div class="profile-actions">
+
+                            <button
+                                type="button"
+                                id="openEditProfileBtn"
+                                class="btn-primary">
+                                Edit Profile
+                            </button>
+
+                            <button
+                                type="button"
+                                id="viewMySellerProfileBtn"
+                                class="btn-outline">
+                                View Public Seller Profile
+                            </button>
+
+                        </div>
+
+                        <p id="myProfileMessage" class="message"></p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- STUDENT SELLER PROFILE PAGE -->
+                <section id="sellerProfile" class="page hidden">
+
+                    <div class="seller-profile-topbar">
+
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            onclick="showPage('explore')">
+                            ← Back to Marketplace
+                        </button>
+
+                    </div>
+
+                    <div id="sellerProfileLoading" class="seller-empty-box hidden">
+                        Loading student seller profile...
+                    </div>
+
+                    <p id="sellerProfileError" class="message"></p>
+
+                    <div id="sellerProfileContent" class="hidden">
+
+                        <!-- A. STUDENT INFORMATION CARD (PUBLIC SAFE — NO COMPLETE STUDENT ID) -->
+                        <div class="seller-hero-card">
+
+                            <div class="seller-hero-identity">
+                                <div id="sellerProfileAvatar" class="profile-avatar seller-avatar-lg">
+                                    S
+                                </div>
+                                <div class="seller-hero-text">
+                                    <div class="seller-name-row">
+                                        <h2 id="sellerProfileName">Student Seller</h2>
+                                        <span id="sellerVerifiedBadge" class="verified-badge hidden">
+                                            ✓ Verified SLSU Student
+                                        </span>
+                                    </div>
+                                    <p id="sellerProfileRole" class="muted">SLSU Student Seller</p>
+                                    <div class="seller-meta-inline">
+                                        <span id="sellerProfileCourse">-</span>
+                                        <span aria-hidden="true">·</span>
+                                        <span id="sellerProfileYearLevel">-</span>
+                                        <span aria-hidden="true">·</span>
+                                        <span>Joined <span id="sellerProfileJoinDate">-</span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="sellerOwnProfileActions" class="seller-hero-actions hidden">
+                                <button
+                                    type="button"
+                                    id="sellerProfileEditOwnBtn"
+                                    class="btn-primary">
+                                    Edit My Profile
+                                </button>
+                            </div>
+
+                        </div>
+
+
+                        <!-- B. SELLER INFORMATION STATS -->
+                        <div class="stats-grid seller-stats-grid">
+
+                            <div class="stat-card">
+                                <h3 id="sellerAvgRating" class="tabular-nums">0.0 ★</h3>
+                                <p>Seller Rating</p>
+                            </div>
+
+                            <div class="stat-card">
+                                <h3 id="sellerTotalReviews" class="tabular-nums">0</h3>
+                                <p>Total Reviews</p>
+                            </div>
+
+                            <div class="stat-card">
+                                <h3 id="sellerCompletedTransactions" class="tabular-nums">0</h3>
+                                <p>Completed Transactions</p>
+                            </div>
+
+                            <div class="stat-card">
+                                <h3 id="sellerActiveListingsCount" class="tabular-nums">0</h3>
+                                <p>Active Listings</p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- C. SELLER'S PRODUCTS -->
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow purple-text">Seller Inventory</p>
+                                <h2>Seller's Active Listings</h2>
+                            </div>
+                        </div>
+
+                        <div id="sellerProductsGrid" class="product-grid"></div>
+                        <p id="sellerProductsMessage" class="message"></p>
+
+
+                        <!-- D. SELLER REVIEWS -->
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow purple-text">Buyer Feedback</p>
+                                <h2>Seller Reviews</h2>
+                            </div>
+                        </div>
+
+                        <div id="sellerReviewFormCard" class="content-card seller-review-form-card hidden">
+
+                            <h3>Leave a Seller Review</h3>
+
+                            <p class="muted">
+                                Share feedback based on your completed transaction with this seller.
+                            </p>
+
+                            <form id="sellerReviewForm">
+
+                                <div class="form-group">
+                                    <label for="reviewOrderSelect">Completed Transaction</label>
+                                    <select id="reviewOrderSelect" required></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Star Rating</label>
+                                    <div id="reviewStarPicker" class="star-picker" role="radiogroup" aria-label="Star Rating">
+                                        <button type="button" class="star-btn active" data-rating="1" aria-label="1 star">★</button>
+                                        <button type="button" class="star-btn active" data-rating="2" aria-label="2 stars">★</button>
+                                        <button type="button" class="star-btn active" data-rating="3" aria-label="3 stars">★</button>
+                                        <button type="button" class="star-btn active" data-rating="4" aria-label="4 stars">★</button>
+                                        <button type="button" class="star-btn active" data-rating="5" aria-label="5 stars">★</button>
+                                    </div>
+                                    <span id="reviewRatingLabel" class="muted">5 out of 5 stars</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reviewComment">Written Review</label>
+                                    <textarea
+                                        id="reviewComment"
+                                        rows="3"
+                                        maxlength="600"
+                                        placeholder="Describe the item condition, communication, and campus meet-up experience..."
+                                        required></textarea>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    id="submitReviewBtn"
+                                    class="btn-primary">
+                                    Submit Review
+                                </button>
+
+                                <p id="reviewFormMessage" class="message"></p>
+
+                            </form>
+
+                        </div>
+
+                        <p id="sellerReviewEligibilityNote" class="muted seller-review-note hidden"></p>
+
+                        <div id="sellerReviewsList" class="seller-reviews-list"></div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ADMIN DASHBOARD -->
+                <section id="admin" class="page hidden">
+
+                    <div class="page-header-row">
+                        <div>
+                            <p class="eyebrow purple-text">Administration</p>
+                            <h2>Admin Dashboard</h2>
+                            <p class="muted">Monitor marketplace activity, manage student accounts, and moderate listings.</p>
+                        </div>
+                    </div>
+
+                    <!-- ADMIN STATISTICS -->
+                    <div class="stats-grid admin-stats-grid">
+
+                        <div class="stat-card">
+                            <h3 id="totalUsers" class="tabular-nums">0</h3>
+                            <p>Total Users</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3 id="totalProducts" class="tabular-nums">0</h3>
+                            <p>Total Products</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3 id="activeProducts" class="tabular-nums">0</h3>
+                            <p>Active Products</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3 id="hiddenProducts" class="tabular-nums">0</h3>
+                            <p>Hidden Products</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3 id="totalOrders" class="tabular-nums">0</h3>
+                            <p>Total Orders</p>
+                        </div>
+
+                    </div>
+
+                    <!-- RECENT ACTIVITY -->
+                    <div class="admin-panel-section">
+                        <div class="admin-panel-header">
+                            <div>
+                                <h3 class="subheading">Recent Activity</h3>
+                                <p class="muted">Latest marketplace listings, user registrations, and orders.</p>
+                            </div>
+                        </div>
+                        <div id="adminRecentActivity" class="admin-activity-list">
+                            <p class="muted">Loading recent activity...</p>
+                        </div>
+                    </div>
+
+                    <!-- USER MANAGEMENT -->
+                    <div class="admin-panel-section">
+                        <h3 class="subheading">User Management</h3>
+                        <p class="muted">Search and filter registered UniTrade student and admin accounts.</p>
+
+                        <div class="user-controls">
+
+                            <input
+                                type="text"
+                                id="userSearch"
+                                placeholder="Search student name, ID, or course..."
+                                oninput="filterUsers()">
+
+                            <select
+                                id="roleFilter"
+                                onchange="filterUsers()">
+
+                                <option value="all">All Accounts</option>
+                                <option value="student">Students</option>
+                                <option value="admin">Admins</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="table-wrap">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Student ID</th>
+                                        <th>Course / Program</th>
+                                        <th>Year Level</th>
+                                        <th>Role</th>
+                                        <th>Date Registered</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody id="userTable"></tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <!-- PRODUCT MANAGEMENT -->
+                    <div class="admin-panel-section">
+                        <h3 class="subheading">Product Management</h3>
+                        <p class="muted">Review, hide/unhide, or remove product listings across the marketplace.</p>
+
+                        <div id="adminProductGrid" class="product-grid"></div>
+                    </div>
+
+                    <p id="adminMessage" class="message"></p>
+
+                </section>
+
+
+            </main>
+
+
+            <!-- FOOTER -->
+            <footer>
+
+                <div class="footer-inner">
+                    <div>
+                        <h3>Uni<span>Trade</span></h3>
+                        <p>Connecting Southern Luzon State University students through safe, convenient campus trading.</p>
+                    </div>
+                </div>
+
+                <p class="footer-copy">© 2026 UniTrade Student Marketplace</p>
+
+            </footer>
+
+        </div>
+
+    </div>
+
+
+    <!-- UNITRADE ORDER CHAT MODAL -->
+    <div id="chatModal" class="hidden">
+
+        <div class="chat-container">
+
+            <!-- CHAT HEADER -->
+            <div class="chat-header">
+
+                <div class="chat-user-info">
+
+                    <div class="chat-avatar" aria-hidden="true">
+                        <span>👤</span>
+                    </div>
+
+                    <div class="chat-user-details">
+
+                        <h2 id="chatUserName">
+                            Order Chat
+                        </h2>
+
+                        <p id="chatUserRole">
+                            Buyer / Seller
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="chat-close-button"
+                    onclick="closeOrderChat()"
+                    aria-label="Close Chat"
+                    title="Close Chat">
+                    &times;
+                </button>
+
+            </div>
+
+
+            <!-- ORDER INFORMATION -->
+            <div class="chat-order-info">
+
+                <div class="chat-order-icon" aria-hidden="true">
+                    🛍️
+                </div>
+
+                <div>
+
+                    <strong>Order Conversation</strong>
+
+                    <p id="chatTitle">
+                        Loading products...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEET-UP LOCATION -->
+            <div class="meetup-section">
+
+                <h3>Meet-up Location</h3>
+
+                <div id="sellerMeetupEditor" class="hidden">
+
+                    <input
+                        type="text"
+                        id="meetupLocationInput"
+                        placeholder="Enter agreed meet-up location..."
+                        maxlength="300">
+
+                    <button
+                        type="button"
+                        id="saveMeetupButton"
+                        class="btn-primary"
+                        onclick="saveMeetupLocation()">
+                        Confirm Meetup Location
+                    </button>
+
+                </div>
+
+                <p id="chatMeetupLocation">
+                    To be discussed
+                </p>
+
+                <p id="meetupLocationStatus" class="message"></p>
+
+            </div>
+
+
+            <!-- CHAT MESSAGES -->
+            <div id="chatMessages" class="chat-messages">
+                <p>Loading messages...</p>
+            </div>
+
+
+            <!-- CHAT INPUT -->
+            <div class="chat-input-area">
+
+                <textarea
+                    id="chatInput"
+                    placeholder="Type a message..."
+                    maxlength="2000"
+                    rows="2"></textarea>
+
+                <button
+                    type="button"
+                    id="sendChatButton"
+                    class="chat-send-button"
+                    onclick="sendChatMessage()"
+                    aria-label="Send Message"
+                    title="Send Message">
+                    ➤
+                </button>
+
+            </div>
+
+            <p id="chatMessageStatus" class="message"></p>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
